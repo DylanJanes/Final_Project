@@ -12,16 +12,16 @@ class CustomUserAdmin(UserAdmin):
     list_display = [
         "email",
         "username",
-        "age",
+        "displayName",
         "is_staff",
     ]
-    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("age",)}),)
+    fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("displayName",)}),)
     add_fieldsets = (
         (
             None,
             {
                 "classes": ("wide",),
-                "fields": ("username", "password1", "password2", "age"),
+                "fields": ("username", "password1", "password2", "displayName"),
             },
         ),
     )
