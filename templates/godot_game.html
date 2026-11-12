@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Godot Game</title>
+    <style>
+        body {
+            margin: 0;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        iframe {
+            width: 960px;
+            height: 540px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe
+        src="{% static 'test_game/test_game.html' %}"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+    </iframe>
+</body>
+</html>
+
+{% endblock %}
