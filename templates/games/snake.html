@@ -1,0 +1,22 @@
+<!-- templates/games/snake.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Snake | Cool Arithmetic Games!{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/games.css' %}">
+<link rel="stylesheet" href="{% static 'snake/snake-style.css' %}">
+
+<div class="game-page-container">
+    <div class="game-header">
+        <h1>Snake</h1>
+        <span class="player-badge">Playing as: {{ user.username|default:"Guest" }}</span>
+    </div>
+
+    <!-- React mounts the Snake game here. -->
+    <div id="snake-root" data-username="{{ user.username }}"></div>
+</div>
+
+<script type="module" src="{% static 'snake/snake-bundle.js' %}"></script>
+{% endblock content %}
