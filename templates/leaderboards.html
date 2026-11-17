@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboards{% endblock title %}
+
+{% block content %}
+<ul class="games">
+    {% for games in games_list %}
+    <li>{{ games }}</li>
+    {% endfor %}
+</ul>
+{% endblock content %}

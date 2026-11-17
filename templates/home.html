@@ -4,7 +4,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<p>Hi {{ user.username }}! You are {{ user.age }} years old.</p>
+<p>Hi {{ user.username }}! Your display name is: "{{ user.displayName }}"!</p>
 {% else %}
 <p>You are not logged in</p>
 {% endif %}
