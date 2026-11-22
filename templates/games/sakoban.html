@@ -32,6 +32,9 @@
         allow="autoplay; fullscreen"
         allowfullscreen>
     </iframe>
+    <form id="csrf-form"> <!--For score authentication, Godot reads this value-->
+        {% csrf_token %}
+    </form>
 </body>
 </html>
 
