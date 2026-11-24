@@ -1,0 +1,7 @@
+<ol>
+    {% for entry in entries %}
+        <li>{{entry.user.displayName}} - {{entry.score}}</li>
+    {% empty %}
+        <li>No Scores Yet.</li>
+    {% endfor %}
+</ol>

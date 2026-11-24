@@ -2,24 +2,28 @@
 
 {% block title %}Leaderboards{% endblock title %}
 
-{% block content%}
-<form method="POST">
-    {% csrf_token %}
-    <label>Game Key:</label>
-    <input type="text" name="game_key" value="test" required>
+{%block content%}
+{% for board in boards %}
+<section>
+    <h2>{{ board.game_name }} </h2>
+    <form method="post" action="{% url 'leaderboards' %}">
+        {% csrf_token %}
+        <input type="hidden" name="game_key" value="{{ board.game_key}}">
 
-    <label>Score:</label>
-    <input type="number" name="score" value="500" required>
+        <label>
+            Test Score
+            <input type="number" name="score" min="0" step="1" required>
+        </label>
 
-    <button type="submit">Submit Test Score</button>
-</form>
+        <button type="submit">Submit Test Score</button>
+    </form>
+    
 
-<h3>Your Saved Scores ({{user.username}})</h3>
-<ul>
-    {% for game, score in user.highscores.items %}
-    <li>{{game}}: {{score}}</li>
-    {% empty %}
-    <li>No scores yet. Submit one above to test!</li>
-    {% endfor %}
-</ul>
-{% endblock %}
+    {% include "leaderboards/highscore_template.html" with high_score=board.high_score only%}
+
+    {% include "leaderboards/leaderboard_template.html" with entries=board.entries only%}
+</section>
+{% endfor %}
+{%endblock%}
+
+
