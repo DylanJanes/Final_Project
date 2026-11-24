@@ -8,6 +8,14 @@ const TICK_MS = 150;
 //Helper to convert coordinates to a Map key.
 const toKey = (x, y) => `${x},${y}`;
 
+//Helper to grab Django's csrftoken cookie.
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return '';
+};
+
 //Generate random food not currently on the snake.
 const spawnFood = (snakeMap) => {
   while (true) {
@@ -106,20 +114,26 @@ export default function App() {
     return () => clearInterval(interval);
   }, [gameOver, food]);
 
-  //Save / Export Score for Logged-In User on Game Over.
+  //POST Score to Django /leaderboards/ on Game Over.
   useEffect(() => {
     if (gameOver && loggedInUser) {
-      const scoreData = {
-        username: loggedInUser,
-        game: 'snake',
-        score: score,
-      };
+      const formData = new URLSearchParams();
+      formData.append('game_key', 'snake');
+      formData.append('score', score);
 
-      setExportedScore(scoreData);
-
-      // Easy for your teammate to read or replace with a Django POST request later
-      window.latestSnakeScore = scoreData;
-      console.log('Ready to export to High Scores:', scoreData);
+      fetch('/leaderboards/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: formData.toString(),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error(`Server returned ${res.status}`);
+          setExportedScore({ username: loggedInUser, game_key: 'snake', score });
+        })
+        .catch((err) => console.error('Failed to submit score:', err));
     }
   }, [gameOver, loggedInUser, score]);
 
