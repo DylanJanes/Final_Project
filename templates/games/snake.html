@@ -13,7 +13,7 @@
         <h1>Snake</h1>
         <span class="player-badge">Playing as: {{ user.username|default:"Guest" }}</span>
     </div>
-
+    {% csrf_token %}
     <!-- React mounts the Snake game here. -->
     <div id="snake-root" data-username="{{ user.username }}"></div>
 </div>
